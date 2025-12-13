@@ -17,4 +17,4 @@ export default class UserModel{
     
 }
 
-let users = []
+let users = [];
