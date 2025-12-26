@@ -27,6 +27,6 @@ export default class UserModel{
 }
 
 let users = [
-    new UserModel( 101, 'Rahul Bhogal', 'rahulbhogal@gmail.com', 'rahul123'),
-    new UserModel(102, 'John Doe', 'johndoe@gmail.com', 'johndoe123') 
+    new UserModel( 100, 'Rahul Bhogal', 'rahulbhogal@gmail.com', 'rahul123'),
+    new UserModel(101, 'John Doe', 'johndoe@gmail.com', 'johndoe123') 
 ];
