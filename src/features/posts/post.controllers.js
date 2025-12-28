@@ -33,11 +33,31 @@ export default class PostController {
 
     deletePostById(req, res) {
         const id = parseInt(req.params.id);
-        const success = PostModel.deletePostById(id);
-        if (!success) {
+        const userId = req.userId;
+        const success = PostModel.deletePostById(id, userId);
+        if (success == false) {
             res.status(404).json({ message: "Post not found." });
+        } else if (success === 'forbidden') {
+            res.status(403).json({ message: "you are not allowed to delete this post." });
         } else {
             res.status(200).json({ message: "Post deleted successfully." });
         }
     }
+
+    updatePostById(req, res) {
+        const id = parseInt(req.params.id);
+        const userId = req.userId;
+        const caption = req.body.caption || null;
+        const imageUrl = req.file.filename || null;
+
+        const updatePost = PostModel.updatePostById(id, caption, imageUrl, userId);
+        if (updatePost === null) {
+            res.status(404).json({ message: "Post not found." });
+        } else if (updatePost === 'forbidden') {
+            res.status(403).json({ message: "you are not allowed to update this post." });
+        } else {
+            res.status(200).json({ message: "Post updated successfully.", post: updatePost });
+        }
+    }
+
 }

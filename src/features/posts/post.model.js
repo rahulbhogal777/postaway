@@ -30,13 +30,32 @@ export default class PostModel {
         return result;
     }
 
-    static deletePostById(id) {
-        const index = posts.findIndex(post => post.id === id);
-        if (index === -1) {
+    static deletePostById(id, userId) {
+        const post = posts.find(post => post.id === id);
+        if (!post) {
             return false;
+        } else if (post.userId !== userId) {
+            return 'forbidden';
         } else {
+            const index = posts.findIndex(post => post.id === id);
             posts.splice(index, 1);
             return true;
+        }
+    }
+
+    static updatePostById(id, caption, imageUrl, userId){
+        const post = posts.find(post => post.id === id); 
+        if (!post) {
+            return null;
+        } else if (post.userId !== userId) {
+            return 'forbidden';
+        } else {
+            const index = posts.findIndex(post => post.id === id);
+            const updatePost = posts[index];
+            updatePost.caption = caption || updatePost.caption;
+            updatePost.imageUrl = imageUrl || updatePost.imageUrl;
+            posts[index] = updatePost;
+            return updatePost;
         }
     }
 }
