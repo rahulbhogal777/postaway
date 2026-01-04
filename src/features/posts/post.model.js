@@ -47,16 +47,16 @@ export default class PostModel {
         const post = posts.find(post => post.id === id); 
         if (!post) {
             return null;
-        } else if (post.userId !== userId) {
-            return 'forbidden';
-        } else {
-            const index = posts.findIndex(post => post.id === id);
-            const updatePost = posts[index];
-            updatePost.caption = caption || updatePost.caption;
-            updatePost.imageUrl = imageUrl || updatePost.imageUrl;
-            posts[index] = updatePost;
-            return updatePost;
         }
+        if (post.userId !== userId) {
+            return 'forbidden';
+        } 
+        const index = posts.findIndex(post => post.id === id);
+        const updatePost = posts[index];
+        updatePost.caption = caption || updatePost.caption;
+        updatePost.imageUrl = imageUrl || updatePost.imageUrl;
+        posts[index] = updatePost;
+        return updatePost; 
     }
 }
 
