@@ -58,6 +58,14 @@ export default class PostModel {
         posts[index] = updatePost;
         return updatePost; 
     }
+
+    static getPostByCaption(caption) {
+        const index = posts.findIndex((post) => post.caption === caption);
+        if (index === -1) {
+            return false;
+        }
+        return posts[index];
+    }
 }
 
 let posts = [];

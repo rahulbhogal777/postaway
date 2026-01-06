@@ -12,5 +12,6 @@ postRoputer.get('/', (req, res) => postController.getPostByUserId(req, res));
 postRoputer.get('/:id', (req, res) => postController.getPostById(req, res));
 postRoputer.delete('/:id', (req, res) => postController.deletePostById(req, res));
 postRoputer.put('/:id', upload.single('imageUrl'), (req, res) => postController.updatePostById(req, res));
+postRoputer.get('/caption', (req, res) => postController.getPostByCaption(req, res));
 
 export default postRoputer;

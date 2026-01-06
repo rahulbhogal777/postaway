@@ -60,4 +60,16 @@ export default class PostController {
         }
     }
 
+    getPostByCaption(req, res) {
+        const caption = req.body.caption;
+        const result = PostModel.getPostByCaption(caption);
+        if (!result) {
+            return res.status(404).json({
+                success: true,
+                msg: 'Post is not found'
+            });
+        }
+        res.status(200).json({ success: true, msg: result });
+    }
+
 }
