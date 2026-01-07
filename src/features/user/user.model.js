@@ -22,7 +22,6 @@ export default class UserModel{
     static getAllUsers() {
         return users;
     }
-
     
 }
 

@@ -7,28 +7,37 @@ export default class PostController {
         const userId = req.userId;
         const imageUrl = req.file.filename;
         const newPost = PostModel.createPost(userId, caption, imageUrl);
-        res.status(201).json({ message: "Post created successfully", post: newPost });
+        res.status(201).json({ success: true, msg: "Post created successfully", post: newPost });
     }
 
     getAllPosts(req, res) {
         const posts = PostModel.getAllPosts();
-        res.status(200).json({ posts });
+        res.status(200).json({
+            success: true,
+            msg: posts
+        });
     }
 
     getPostById(req, res) {
         const id = parseInt(req.params.id);
         const post = PostModel.getPostById(id);
         if (!post) {
-            res.status(404).json({ message: "Post not found." });
+            res.status(404).json({ success: false, msg: "Post not found." });
         } else {
-            res.status(200).json({ post });
+            res.status(200).json({
+                success: true,
+                msg: post
+            });
         }
     }
 
     getPostByUserId(req, res) {
         const userId = req.userId;
         const posts = PostModel.getPostByUserId(userId);
-        res.status(200).json({ posts });
+        res.status(200).json({
+            success: true,
+            msg: posts
+        });
     }
 
     deletePostById(req, res) {
@@ -36,11 +45,20 @@ export default class PostController {
         const userId = req.userId;
         const success = PostModel.deletePostById(id, userId);
         if (success == false) {
-            res.status(404).json({ message: "Post not found." });
+            res.status(404).json({
+                success: false,
+                msg: "Post not found."
+            });
         } else if (success === 'forbidden') {
-            res.status(403).json({ message: "you are not allowed to delete this post." });
+            res.status(403).json({
+                success: false,
+                msg: "you are not allowed to delete this post."
+            });
         } else {
-            res.status(200).json({ message: "Post deleted successfully." });
+            res.status(200).json({
+                success: true,
+                msg: "Post deleted successfully."
+            });
         }
     }
 
@@ -52,20 +70,28 @@ export default class PostController {
 
         const updatePost = PostModel.updatePostById(id, caption, imageUrl, userId);
         if (updatePost === null) {
-            res.status(404).json({ message: "Post not found." });
+            res.status(404).json({
+                success: false,
+                msg: "Post not found."
+            });
         } else if (updatePost === 'forbidden') {
-            res.status(403).json({ message: "you are not allowed to update this post." });
+            res.status(403).json({
+                success: false,
+                msg: "you are not allowed to update this post."
+            });
         } else {
-            res.status(200).json({ message: "Post updated successfully.", post: updatePost });
+            res.status(200).json({ success: true, msg: "Post updated successfully.", post: updatePost });
         }
     }
 
     getPostByCaption(req, res) {
         const caption = req.body.caption;
+        console.log(req.body);
         const result = PostModel.getPostByCaption(caption);
+        console.log(result);
         if (!result) {
             return res.status(404).json({
-                success: true,
+                success: false,
                 msg: 'Post is not found'
             });
         }

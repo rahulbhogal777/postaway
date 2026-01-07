@@ -7,7 +7,10 @@ export default class UserController {
         const { name, email, password } = req.body;
         const user = UserModel.signUp(name, email, password);
         console.log(user);
-        res.status(201).send("User signed up successfully");
+        res.status(201).json({
+            success: true,
+            msg: "User signed up successfully"
+        });
     }
 
     signIn(req, res, next) {
@@ -15,15 +18,24 @@ export default class UserController {
         const user = UserModel.signIn(email, password);
         if (user) {
             const token = jwt.sign({ userId: user.id },'cacd7d1b31d5ce0776e23478143d19d3c088196d', { expiresIn: '1h' });
-            res.status(200).json({ token });
+            res.status(200).json({
+                success: true,
+                msg: token
+            });
         } else {
-            res.status(401).json({ message: "Invalid email or password" });
+            res.status(401).json({
+                success: false,
+                msg: "Invalid email or password"
+            });
         }
     }
 
     getAllUsers(req, res, next) {
         const users = UserModel.getAllUsers();
-        res.status(200).json(users);
+        res.status(200).json({
+            success: true,
+            msg: users
+        });
     }
 
 }

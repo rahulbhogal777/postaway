@@ -61,6 +61,7 @@ export default class PostModel {
 
     static getPostByCaption(caption) {
         const index = posts.findIndex((post) => post.caption === caption);
+        console.log("index :" + index);
         if (index === -1) {
             return false;
         }
