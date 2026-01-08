@@ -5,6 +5,7 @@ export default class UserModel{
         this.name = name;
         this.email = email;
         this.password = password;
+        this.bookmark = [];
     }
 
 
@@ -15,12 +16,23 @@ export default class UserModel{
     }
 
     static signIn(email, password) {
-        const result =users.find(user => user.email === email && user.password === password);
+        const result = users.find(user => user.email === email && user.password === password);
         return result; 
     }
 
     static getAllUsers() {
         return users;
+    }
+
+    static bookmark(userId, postId) {
+        const index = users.findIndex((user) => user.id === userId);
+        if (index === -1) {
+            return false;
+        }
+        if (!users[index].bookmark.includes(postId)) {
+            users[index].bookmark.push(postId);
+        }
+        return users[index];
     }
     
 }

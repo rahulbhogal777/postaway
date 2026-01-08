@@ -1,4 +1,5 @@
 import PostModel from "./post.model.js";
+import UserModel from "../user/user.model.js";
 
 export default class PostController {
     
@@ -7,6 +8,8 @@ export default class PostController {
         const userId = req.userId;
         const imageUrl = req.file.filename;
         const newPost = PostModel.createPost(userId, caption, imageUrl);
+        console.log(newPost);
+
         res.status(201).json({ success: true, msg: "Post created successfully", post: newPost });
     }
 
@@ -96,6 +99,23 @@ export default class PostController {
             });
         }
         res.status(200).json({ success: true, msg: result });
+    }
+
+    bookmarkPost(req, res) {
+        const userId = req.userId;
+        const id = parseInt(req.params.id);
+
+        const result = UserModel.bookmark(userId, id);
+        if (!result) {
+            return res.status(404).json({
+                success: false,
+                msg: 'User is not found'
+            })
+        }
+        res.status(200).json({
+            success: true, 
+            msg: result
+        })
     }
 
 }
